@@ -20,15 +20,15 @@ void main(List<String> arguments) async {
       '&ssl=true');
 
   await db.open();
-  var collUsers = db.collection('people');
+  var collPeople = db.collection('people');
   var collProduct = db.collection('product');
-  var array = await collUsers.find().toList();
+  var array = await collPeople.find().toList();
   // array.forEach((element) {
   //   print(element);
   // });
   int port = ApiConfig.port;
   final app = Router();
-  app.mount('/people', PeopleAPI(coll: collUsers).router);
+  app.mount('/people', PeopleAPI(coll: collPeople).router);
   app.mount('/product', ProductAPI(coll: collProduct).router);
 
   // Listen for incoming connections
@@ -37,7 +37,6 @@ void main(List<String> arguments) async {
   // .addMiddleware(logRequests())
       .addHandler(app);
 
-  //withHotreload(() => serve(handler, InternetAddress.anyIPv4, port));
 
   await io
       .serve(handler, InternetAddress.anyIPv4, port)
