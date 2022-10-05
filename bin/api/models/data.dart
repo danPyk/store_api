@@ -6,14 +6,20 @@ part 'data.g.dart';
 
 @JsonSerializable()
 class Data {
-  /// The generated code assumes these values exist in JSON.
   final String token;
+
+  ///when sign up we do not supply id
+  final String? id;
   final Map<String, dynamic> user;
 
   /// The generated code below handles if the corresponding JSON value doesn't
   /// exist or is empty.
 
-  Data({required this.token, required this.user});
+  Data({
+    required this.token,
+    required this.user,
+     this.id,
+  });
 
   /// Connect the generated [_$UserFromJson] function to the `fromJson`
   /// factory.

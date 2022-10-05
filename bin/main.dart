@@ -6,22 +6,19 @@ import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf_router/shelf_router.dart';
 
 import 'api/api_config.dart';
+import 'api/controllers/order.dart';
 import 'api/controllers/product.dart';
 import 'api/controllers/people.dart';
 import 'package:shelf_hotreload/shelf_hotreload.dart';
 
 void main(List<String> arguments) async {
-  var db = Db('mongodb://${ApiConfig.username}:${ApiConfig.password}@'
-      'ac-eiipju9-shard-00-02.bb6hpqn.mongodb.net:27017,'
-      'ac-eiipju9-shard-00-00.bb6hpqn.mongodb.net:27017,'
-      'ac-eiipju9-shard-00-01.bb6hpqn.mongodb.net:27017/'
-      'test?authSource=admin&compressors=disabled'
-      '&gssapiServiceName=mongodb&replicaSet=atlas-stcn2i-shard-0'
-      '&ssl=true');
+  var db = Db(ApiConfig.dbUrl);
 
   await db.open();
   var collPeople = db.collection('people');
   var collProduct = db.collection('product');
+  var collOrder = db.collection('order');
+
   var array = await collPeople.find().toList();
   // array.forEach((element) {
   //   print(element);
@@ -30,6 +27,7 @@ void main(List<String> arguments) async {
   final app = Router();
   app.mount('/people', PeopleAPI(coll: collPeople).router);
   app.mount('/product', ProductAPI(coll: collProduct).router);
+  app.mount('/cart', OrderAPI(coll: collOrder).router);
 
   // Listen for incoming connections
 

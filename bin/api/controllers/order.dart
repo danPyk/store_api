@@ -4,10 +4,10 @@ import 'package:mongo_dart/mongo_dart.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-class ProductAPI {
+class OrderAPI {
   late final DbCollection coll;
 
-  ProductAPI({required this.coll});
+  OrderAPI({required this.coll});
 
   Handler get router {
     final router = Router();
@@ -24,7 +24,6 @@ class ProductAPI {
       );
     }) ;
 
-        ///CATEGORY
 
     router.get('/category/<field>/', (Request request, String field) async {
       if(field.contains('+')){
@@ -72,11 +71,11 @@ class ProductAPI {
     });
 
     router.delete('/id/<parameter>/',
-        (Request request, String parameter) async {
-      var itemToDelete = await coll.findOne(where.eq('id', parameter));
-      await coll.remove(itemToDelete);
-      return Response.ok('User deleted');
-    });
+            (Request request, String parameter) async {
+          var itemToDelete = await coll.findOne(where.eq('id', parameter));
+          await coll.remove(itemToDelete);
+          return Response.ok('User deleted');
+        });
 
     router.patch('/', (Request request) async {
       final payLoad = await request.readAsString();
