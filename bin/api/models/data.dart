@@ -7,24 +7,19 @@ part 'data.g.dart';
 @JsonSerializable()
 class Data {
   final String token;
+//todo
 
-  ///when sign up we do not supply id
+  ///null, because when sign up we do not supply id
   final String? id;
-  final Map<String, dynamic> user;
-
-  /// The generated code below handles if the corresponding JSON value doesn't
-  /// exist or is empty.
+  final Map<String, dynamic> userMap;
 
   Data({
     required this.token,
-    required this.user,
-     this.id,
+    required this.userMap,
+    this.id,
   });
 
-  /// Connect the generated [_$UserFromJson] function to the `fromJson`
-  /// factory.
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
 
-  /// Connect the generated [_$PersonToJson] function to the `toJson` method.
   Map<String, dynamic> toJson() => _$DataToJson(this);
 }

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:logger/logger.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
@@ -24,21 +25,21 @@ void main(List<String> arguments) async {
   //   print(element);
   // });
   int port = ApiConfig.port;
-  final app = Router();
+  final Router app = Router();
   app.mount('/people', PeopleAPI(coll: collPeople).router);
   app.mount('/product', ProductAPI(coll: collProduct).router);
-  app.mount('/cart', OrderAPI(coll: collOrder).router);
+  app.mount('/order', OrderAPI(coll: collOrder).router);
 
   // Listen for incoming connections
 
-  final handler = Pipeline()
-  // .addMiddleware(logRequests())
-      .addHandler(app);
-
+  final Handler handler = Pipeline().addMiddleware(logRequests()).addHandler(app);
 
   await io
       .serve(handler, InternetAddress.anyIPv4, port)
       .whenComplete(() => print('Server serving'));
+
+/*  var logger = Logger();
+  logger.d(result);*/
 
   // var res =  await collProduct.distinct('category');
   //
