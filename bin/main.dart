@@ -32,11 +32,15 @@ void main(List<String> arguments) async {
 
   // Listen for incoming connections
 
-  final Handler handler = Pipeline().addMiddleware(logRequests()).addHandler(app);
+  final Handler handler =
+  //todo add time of log
+      Pipeline().addMiddleware(logRequests()).addHandler(app);
 
   await io
       .serve(handler, InternetAddress.anyIPv4, port)
       .whenComplete(() => print('Server serving'));
+
+
 
 /*  var logger = Logger();
   logger.d(result);*/
